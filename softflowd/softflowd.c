@@ -272,7 +272,7 @@ format_flow(struct FLOW *flow)
 	snprintf(ftime, sizeof(ftime), "%s", 
 	    format_time(flow->flow_last.tv_sec));
 
-	snprintf(buf, sizeof(buf),  "%s, %hu, %s, %hu, %d, %d, %u, %u, %d\r\n",
+	snprintf(buf, sizeof(buf),  "%s, %hu, %s, %hu, %d, %d, %u, %u, %d",
             addr1, ntohs(flow->port[0]), addr2, ntohs(flow->port[1]), 
 	    (int)(flow->flow_last.tv_sec - flow->flow_start.tv_sec), (int)flow->protocol,
             flow->octets[0], flow->octets[1], land);
@@ -856,7 +856,7 @@ check_expired(struct FLOWTRACK *ft, struct NETFLOW_TARGET *target, int ex)
 		}
 		for (i = 0; i < num_expired; i++) {
 			if (verbose_flag) {
-				logit(LOG_DEBUG, "EXOIRED: %s", format_flow(expired_flows[i]));
+				logit(LOG_DEBUG, "EXPIRED: %s", format_flow(expired_flows[i]));
 			}
 			update_statistics(ft, expired_flows[i]);
 			flow_put(ft, expired_flows[i]);

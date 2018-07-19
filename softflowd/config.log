@@ -399,8 +399,8 @@ configure:3973: $? = 0
 configure:3982: result: yes
 configure:3997: checking for closefrom
 configure:3997: gcc -o conftest -g -O2   conftest.c -lpcap  >&5
-/tmp/ccefU1LE.o: In function `main':
-/home/will/softflowd-0.9.9/conftest.c:57: undefined reference to `closefrom'
+/tmp/ccflviuF.o: In function `main':
+/home/will/softflowd/conftest.c:57: undefined reference to `closefrom'
 collect2: error: ld returned 1 exit status
 configure:3997: $? = 1
 configure: failed program was:
@@ -487,8 +487,8 @@ configure:3997: $? = 0
 configure:3997: result: yes
 configure:3997: checking for strlcpy
 configure:3997: gcc -o conftest -g -O2   conftest.c -lpcap  >&5
-/tmp/cc0jxo8R.o: In function `main':
-/home/will/softflowd-0.9.9/conftest.c:62: undefined reference to `strlcpy'
+/tmp/ccyZvuBU.o: In function `main':
+/home/will/softflowd/conftest.c:62: undefined reference to `strlcpy'
 collect2: error: ld returned 1 exit status
 configure:3997: $? = 1
 configure: failed program was:
@@ -560,8 +560,8 @@ configure: failed program was:
 configure:3997: result: no
 configure:3997: checking for strlcat
 configure:3997: gcc -o conftest -g -O2   conftest.c -lpcap  >&5
-/tmp/cc7lnZKU.o: In function `main':
-/home/will/softflowd-0.9.9/conftest.c:62: undefined reference to `strlcat'
+/tmp/cc4w2kiX.o: In function `main':
+/home/will/softflowd/conftest.c:62: undefined reference to `strlcat'
 collect2: error: ld returned 1 exit status
 configure:3997: $? = 1
 configure: failed program was:
