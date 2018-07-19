@@ -1,9 +1,8 @@
 # Softflowd
 
-## [Source Code](softflowd-0.9.9.tar.gz) 
-
 ## 說明
-本程式用意把 Netflow 轉成 NSL-KDD 所需之格式
+### [Source Code](softflowd-0.9.9.tar.gz) 
+本程式主要處理用 Netflow 轉成 NSL-KDD 所需之格式
 ``` sh
 sudo softflowd -i ens33 -n localhost:9999 -v 9 -s 0 -t maxlife=2 -D 
 ```
