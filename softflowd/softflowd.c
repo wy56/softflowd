@@ -262,9 +262,7 @@ format_flow(struct FLOW *flow)
 	if(ntohs(flow->port[0]) == ntohs(flow->port[1]))
    	    land = 1;
 	else
-    	    land = 0;
-
-    memset(service, '\0', sizeof(service));	
+    	land = 0;
 	
 	if(service_port >= 6667 && service_port <= 6669)
 	    strcpy(service, "IRC");
