@@ -255,15 +255,142 @@ format_time(time_t t)
 static const char *
 format_flow(struct FLOW *flow)
 {
-	char addr1[64], addr2[64], stime[32], ftime[32];
+	char addr1[64], addr2[64], stime[32], ftime[32], service[10];
 	static char buf[1024];
-	int land;
+	int land, service_port = ntohs(flow->port[1]);
 
 	if(ntohs(flow->port[0]) == ntohs(flow->port[1]))
    	    land = 1;
 	else
     	    land = 0;
 
+    memset(service, '\0', sizeof(service));	
+	
+	if(service_port >= 6667 && service_port <= 6669)
+	    strcpy(service, "IRC");
+	else if(service_port >= 6000 && service_port <= 6063)
+	    strcpy(service, "X11");
+	else if(service_port == 210)
+	    strcpy(service, "Z39_50");
+	else if(service_port == 5190)
+	    strcpy(service, "aol");
+	else if(service_port == 113)
+	    strcpy(service, "auth");
+	else if(service_port == 179)
+	    strcpy(service, "bgp");
+    else if(service_port == 530)
+        strcpy(service, "courier");
+    else if(service_port == 105)
+        strcpy(service, "csnet_ns");
+    else if(service_port == 84 || service_port == 2733)
+        strcpy(service, "ctf");
+    else if(service_port == 13)
+        strcpy(service, "daytime");
+    else if(service_port == 9)
+        strcpy(service, "discard");
+    else if(service_port == 53)
+        strcpy(service, "domain");
+    else if(service_port == 7)
+        strcpy(service, "echo");
+    else if(service_port == 3263)
+        strcpy(service, "eco_i");
+    else if(service_port == 520)
+        strcpy(service, "efs");
+    else if(service_port == 512)
+        strcpy(service, "exec");
+    else if(service_port == 79)
+        strcpy(service, "finger");
+    else if(service_port == 21)
+        strcpy(service, "ftp");
+    else if(service_port == 20)
+        strcpy(service, "ftp_data");
+    else if(service_port == 70)
+        strcpy(service, "gopher");
+    else if(service_port == 101)
+        strcpy(service, "hostnames");
+    else if(service_port == 80)
+        strcpy(service, "http");
+    else if(service_port == 2784)
+        strcpy(service, "http_2784");
+    else if(service_port == 443)
+        strcpy(service, "http_443");
+    else if(service_port == 8001)
+        strcpy(service, "http_8001");
+    else if(service_port == 143)
+        strcpy(service, "imap4");
+    else if(service_port == 102)
+        strcpy(service, "iso_tsap");
+    else if(service_port == 543)
+        strcpy(service, "klogin");
+    else if(service_port == 544)
+        strcpy(service, "kshell");
+    else if(service_port == 389)
+        strcpy(service, "ldap");
+    else if(service_port == 245)
+        strcpy(service, "link");
+    else if(service_port == 513)
+        strcpy(service, "login");
+    else if(service_port == 1911)
+        strcpy(service, "mtp");
+    else if(service_port == 42)
+        strcpy(service, "name");
+    else if(service_port == 138)
+        strcpy(service, "netbios_dgm");
+    else if(service_port == 137)
+        strcpy(service, "netbios_ns");
+    else if(service_port == 139)
+        strcpy(service, "netbios_ssn");
+    else if(service_port == 15)
+        strcpy(service, "netstat");
+    else if(service_port == 433)
+        strcpy(service, "nnsp");
+    else if(service_port == 119)
+        strcpy(service, "nntp");
+    else if(service_port == 123)
+        strcpy(service, "ntp_u");
+    else if(service_port == 109)
+        strcpy(service, "pop_2");
+    else if(service_port == 110)
+        strcpy(service, "pop_3");
+    else if(service_port == 515)
+        strcpy(service, "printer");
+    else if(service_port >= 49152)
+        strcpy(service, "private");
+    else if(service_port == 205)
+        strcpy(service, "red_i");
+    else if(service_port == 5 || service_port == 77)
+        strcpy(service, "rje");
+    else if(service_port == 514)
+        strcpy(service, "shell");
+    else if(service_port == 25 || service_port == 465)
+        strcpy(service, "smtp");
+    else if(service_port == 66)
+        strcpy(service, "sql_net");
+    else if(service_port == 22)
+        strcpy(service, "ssh");
+    else if(service_port == 111 || service_port == 135)
+        strcpy(service, "sunrpc");
+    else if(service_port == 95)
+        strcpy(service, "supdup");
+    else if(service_port == 11)
+        strcpy(service, "systat");
+    else if(service_port == 23)
+        strcpy(service, "telnet");
+    else if(service_port == 69)
+        strcpy(service, "tftp_u");
+    else if(service_port == 37)
+        strcpy(service, "time");
+    else if(service_port == 540)
+        strcpy(service, "uucp");
+    else if(service_port == 117)
+        strcpy(service, "uucp_path");
+    else if(service_port == 175)
+        strcpy(service, "vmnet");
+    else if(service_port == 43)
+        strcpy(service, "whois");
+    else
+        strcpy(service, "other");
+	
 	inet_ntop(flow->af, &flow->addr[0], addr1, sizeof(addr1));
 	inet_ntop(flow->af, &flow->addr[1], addr2, sizeof(addr2));
 
@@ -272,10 +399,10 @@ format_flow(struct FLOW *flow)
 	snprintf(ftime, sizeof(ftime), "%s", 
 	    format_time(flow->flow_last.tv_sec));
 
-	snprintf(buf, sizeof(buf),  "%s, %hu, %s, %hu, %d, %d, %u, %u, %d",
+	snprintf(buf, sizeof(buf),  "%s, %hu, %s, %hu, %d, %d, %u, %u, %d, %s",
             addr1, ntohs(flow->port[0]), addr2, ntohs(flow->port[1]), 
 	    (int)(flow->flow_last.tv_sec - flow->flow_start.tv_sec), (int)flow->protocol,
-            flow->octets[0], flow->octets[1], land);
+            flow->octets[0], flow->octets[1], land, service);
 
 	return (buf);
 }
